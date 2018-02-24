@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user, :is_admin?, :current_market, :gon
   before_action :set_timezone, :set_gon
   after_action :allow_iframe
-  rescue_from CoinRPC::ConnectionRefusedError, with: :coin_rpc_connection_refused
+  rescue_from CoinAPI::ConnectionRefusedError, with: :coin_rpc_connection_refused
 
   private
 
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_settings_page
     if cookies[:redirect_to].present?
-      redirect_to cookies[:redirect_to]
+      redirect_to URI.parse(cookies[:redirect_to]).path
       cookies[:redirect_to] = nil
     else
       redirect_to settings_path
@@ -37,7 +37,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_verified!
-    unless current_user&.id_document&.verified?
+    if current_user.level.present? && !current_user.level.identity_verified?
       redirect_to settings_path, alert: t('private.settings.index.auth-verified')
     end
   end
@@ -80,7 +80,6 @@ class ApplicationController < ActionController::Base
     }
 
     gon.i18n = {
-      brand: I18n.t('gon.brand'),
       ask: I18n.t('gon.ask'),
       bid: I18n.t('gon.bid'),
       cancel: I18n.t('actions.cancel'),
@@ -132,6 +131,10 @@ class ApplicationController < ActionController::Base
       }
     }
 
+    gon.markets_metadata = {
+      title: ENV.fetch('MARKETS_METADATA_TITLE')
+    }
+
     gon.currencies = Currency.all.inject({}) do |memo, currency|
       memo[currency.code] = {
         code: currency[:code],
@@ -140,7 +143,7 @@ class ApplicationController < ActionController::Base
       }
       memo
     end
-    gon.fiat_currency = Currency.first.code
+    gon.fiat_currency = Peatio.base_fiat_ccy
 
     gon.tickers = {}
     Market.all.each do |market|
@@ -158,6 +161,8 @@ class ApplicationController < ActionController::Base
         memo
       end
     end
+
+    gon.bank_details_html = ENV['BANK_DETAILS_HTML']
   end
 
   def coin_rpc_connection_refused

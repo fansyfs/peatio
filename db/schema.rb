@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180112151205) do
+ActiveRecord::Schema.define(version: 20180215144645) do
 
   create_table "account_versions", force: :cascade do |t|
     t.integer  "member_id",       limit: 4
@@ -65,13 +65,6 @@ ActiveRecord::Schema.define(version: 20180112151205) do
   add_index "api_tokens", ["access_key"], name: "index_api_tokens_on_access_key", unique: true, using: :btree
   add_index "api_tokens", ["secret_key"], name: "index_api_tokens_on_secret_key", unique: true, using: :btree
 
-  create_table "assets", force: :cascade do |t|
-    t.string  "type",            limit: 255
-    t.integer "attachable_id",   limit: 4
-    t.string  "attachable_type", limit: 255
-    t.string  "file",            limit: 255
-  end
-
   create_table "audit_logs", force: :cascade do |t|
     t.string   "type",           limit: 255
     t.integer  "operator_id",    limit: 4
@@ -89,7 +82,7 @@ ActiveRecord::Schema.define(version: 20180112151205) do
   create_table "authentications", force: :cascade do |t|
     t.string   "provider",   limit: 255
     t.string   "uid",        limit: 255
-    t.string   "secret",     limit: 255
+    t.text     "token",      limit: 65535
     t.integer  "member_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -132,31 +125,19 @@ ActiveRecord::Schema.define(version: 20180112151205) do
     t.datetime "deleted_at"
   end
 
-  create_table "id_documents", force: :cascade do |t|
-    t.integer  "id_document_type",   limit: 4
-    t.string   "name",               limit: 255
-    t.string   "id_document_number", limit: 255
-    t.integer  "member_id",          limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "birth_date"
-    t.text     "address",            limit: 65535
-    t.string   "city",               limit: 255
-    t.string   "country",            limit: 255
-    t.string   "zipcode",            limit: 255
-    t.integer  "id_bill_type",       limit: 4
-    t.string   "aasm_state",         limit: 255
+  create_table "members", force: :cascade do |t|
+    t.string   "level",        limit: 20,  default: ""
+    t.string   "sn",           limit: 12,                  null: false
+    t.string   "email",        limit: 255,                 null: false
+    t.boolean  "disabled",                 default: false, null: false
+    t.boolean  "api_disabled",             default: false, null: false
+    t.string   "name",         limit: 45
+    t.string   "nickname",     limit: 32
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
-  create_table "members", force: :cascade do |t|
-    t.string   "sn",           limit: 255
-    t.string   "email",        limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "disabled",                 default: false
-    t.boolean  "api_disabled",             default: false
-    t.string   "nickname",     limit: 255
-  end
+  add_index "members", ["sn"], name: "index_members_on_sn", unique: true, using: :btree
 
   create_table "orders", force: :cascade do |t|
     t.integer  "bid",            limit: 4

@@ -7,29 +7,9 @@ ru:
     funds:
       deposit: Пополнить
       withdraw: Вывести
-      currency_name:
-        usd: USD
-        btc: BTC
-      deposit_usd:
-        title: Пополнить в USD
-        desc: "Чтобы внести средства банковским платежом:"
-        desc_item_1: "1. Для получения идентификационного кода заполните форму."
-        desc_item_2: "2. Перечислите средства на банковский счет биржи. Убедитесь что код авторизации присутствует на заполняемой форме."
-        desc_item_3: "3. Ваш счет будет пополнен как только мы получим деньги."
-        attention: "Внимание: имя владельца банковского счета должно совпадать с именем владельца аккаунта, иначе перевод может быть отклонен."
-        from: Из
-        to: На
-        deposit_name: Ваше имя
-        deposit_account: Счет пополнения
-        add: Добавить
-        manage: Управлять
-        amount: Сумма пополнения
-        min_amount: Как минимум 10 USD
-        to_account: Счет
-        to_name: Имя
-        to_bank_name: Наименование банка
-        opening_bank_name: Учетная запись была создана
-        remark: 'Код авторизации'
+      deposit_fiat:
+        title: 'Пополнить в {{currency}}'
+        description: Свяжитесь с менеджером Вашего банка для инструкций.
       deposit_btc:
         title: Пополнение в BTC
       deposit_coin:
@@ -58,8 +38,8 @@ ru:
         rejected: Отклонен
         checked: Проверен
         warning: Предупреждение
-      withdraw_usd:
-        title: Вывести в USD
+      withdraw_fiat:
+        title: 'Вывести в {{currency}}'
         intro: Выберите банк для вывода средств и введите номер счета.
         intro_2: Имя владельца банковского счета должно совпадать с Вашим именем.
         attention: "Часы работы: с 9:00 до 18:00"
@@ -98,11 +78,5 @@ ru:
         accepted: Принято
         processing: Обрабатывается
         done: Готово
-        almost_done: Почти готово
         canceled: Отклонено
         failed: Не удалось
-    markets:
-      market_list:
-        all: Все рынки
-        usd: Рынок USD
-        btc: Рынок BTC

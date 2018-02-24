@@ -1,12 +1,4 @@
 module ApplicationHelper
-  def document_to(key: nil, title: nil, &block)
-    if title
-      link_to(title, '', :data => {:remote => "#{main_app.document_path(key)}", :toggle => "modal", :target => '#document_modal'})
-    elsif block
-      link_to('', :data => {:remote => "#{main_app.document_path(key)}", :toggle => "modal", :target => '#document_modal'}, &block)
-    end
-  end
-
   def detail_section_tag(title)
     content_tag('span', title, :class => 'detail-section') + \
     tag('hr')
@@ -182,10 +174,6 @@ module ApplicationHelper
     asset_path("/languages/#{lang}.png")
   end
 
-  def i18n_meta(key)
-    t("#{i18n_controller_path}.#{action_name}.#{key}", default: :"layouts.meta.#{key}")
-  end
-
   def description_for(name, &block)
     content_tag :dl, class: "dl-horizontal dl-#{name}" do
       capture(&block)
@@ -240,4 +228,26 @@ module ApplicationHelper
   end
 
   alias_method :d, :format_currency
+
+  def root_url_with_port_from_request
+    port  = request.env['SERVER_PORT']
+    parts = [request.protocol, request.domain]
+    unless port.blank?
+      parts << if request.ssl?
+         port == '443' ? '' : ":#{port}"
+      else
+        port == '80' ? '' : ":#{port}"
+      end
+    end
+    parts.join('')
+  end
+
+  def custom_stylesheet_link_tag_for(layout)
+    if File.file?(Rails.root.join('public/custom-stylesheets', "#{layout}.css"))
+      tag :link, \
+        rel:   'stylesheet',
+        media: 'screen',
+        href:  "/custom-stylesheets/#{layout}.css"
+    end
+  end
 end

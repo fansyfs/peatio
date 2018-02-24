@@ -1,5 +1,5 @@
 feature 'withdraw', js: true do
-  let!(:member) { create :verified_member }
+  let!(:member) { create :member, :verified_identity }
 
   let(:radio_label) do
     "#{member.name} @ #{member.email}"
@@ -7,10 +7,6 @@ feature 'withdraw', js: true do
 
   before do
     Withdraw.any_instance.stubs(:examine).returns(true)
-    CoinRPC::BTC.any_instance
-                 .stubs(:validateaddress)
-                 .returns(isvalid: true, ismine: false)
-
     btc_account = member.get_account(:btc)
     btc_account.update_attributes balance: 1000
     usd_account = member.get_account(:usd)

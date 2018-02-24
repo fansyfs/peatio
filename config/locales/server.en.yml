@@ -9,7 +9,6 @@ en:
       withdraw: Withdraw
       deposit: Deposit
       payment_transaction: Payment
-      id_document: ID Document
       statistic/orders_grid: Orders Stat
       statistic/trades_grid: Trading Stat
       statistic/members_grid: Members Stat
@@ -111,8 +110,6 @@ en:
         name: Real Name
         created_at: Register At
         sn: SN
-        id_document_number: Id Document Number
-        id_document_verified?: "Id Document Verified?"
       withdraws/bank:
         id: ID
         member_name: Member
@@ -145,7 +142,31 @@ en:
         amount: Amount
         confirmations: Confirmation
         aasm_state_text: State
+      deposits/bitcoin_cash:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
+      deposits/litoshi:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
       deposits/ripple:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
+      deposits/duff:
+        created_at: Created At
+        txid: Transaction ID
+        amount: Amount
+        confirmations: Confirmation
+        aasm_state_text: State
+      deposits/ethereum:
         created_at: Created At
         txid: Transaction ID
         amount: Amount
@@ -165,7 +186,63 @@ en:
         amount: Amount
         remark: Remark
         fee: Fee
+      withdraws/bitcoin_cash:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
+      withdraws/litoshi:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
       withdraws/ripple:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
+      withdraws/duff:
+        id: ID
+        member_name: Account
+        currency_obj_key_text: Currency
+        state_and_actions: State/Action
+        fund_extra_text: Withdraw Label
+        fund_extrat: Withdraw Label
+        fund_source: Bank
+        fund_uid: Account
+        created_at: Created At
+        sum: Amount
+        amount: Amount
+        remark: Remark
+        fee: Fee
+      withdraws/ethereum:
         id: ID
         member_name: Account
         currency_obj_key_text: Currency
@@ -202,8 +279,16 @@ en:
             address:
               satoshi_ismine: Used Address
               satoshi_invalid: Invalid Address
+              bitcoin_cash_ismine: Used Address
+              bitcoin_cash_invalid: Invalid Address
+              litoshi_ismine: Used Address
+              litoshi_invalid: Invalid Address
               ripple_ismine: Used Address
               ripple_invalid: Invalid Address
+              duff_ismine: Used Address
+              duff_invalid: Invalid Address
+              ethereum_ismine: Used Address
+              ethereum_invalid: Invalid Address
         withdraw:
           account_balance_is_poor: Account balance is insufficient
           attributes:
@@ -218,7 +303,31 @@ en:
               blank: Please enter your withdrawal address
               invalid: Invalid withdrawals address, please review.
               ismine: Please use a new address.
+        withdraws/bitcoin_cash:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+        withdraws/litoshi:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
         withdraws/ripple:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+        withdraws/duff:
+          attributes:
+            fund_uid:
+              blank: Please enter your withdrawal address
+              invalid: Invalid withdrawals address, please review.
+              ismine: Please use a new address.
+        withdraws/ethereum:
           attributes:
             fund_uid:
               blank: Please enter your withdrawal address
@@ -256,45 +365,6 @@ en:
     pab: Ping An Bank Co., Ltd.
     gdb: Guangdong Development Bank
     psbc: Postal Savings Bank of China
-  market:
-    currency:
-      btc: BTC
-      xrp: XRP
-      usd: USD
-      doge: DOGE
-      pts: PTS
-      ltc: LTC
-  currency:
-    satoshi:
-      key: BTC
-      code: BTC
-      name: Bitcoin
-      format: '0,0.0000'
-    ripple:
-      key: XRP
-      code: XRP
-      name: Ripple
-      format: '0,0.0000'
-    bitsharesx:
-      key: BTS
-      code: BTSX
-      name: BitsharesX
-      format: '0,0.0000'
-    dollar:
-      key: usd
-      code: usd
-      name: USD
-      format: '0,0.00'
-    dogecoin:
-      key: DOG
-      code: DOGE
-      name: Dogecoin
-      format: '0,0.0000'
-    protoshare:
-      key: PTS
-      code: PTS
-      name: Protoshare
-      format: '0,0.0000'
   datagrid:
     empty: no data found
     filters:
@@ -436,10 +506,38 @@ en:
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
+    bitcoin_cash:
+      key: Block Chain
+      title: Bitcoin Cash Deposits
+      intro: Deposit Bitcoin Cash from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+    litoshi:
+      key: Block Chain
+      title: Litoshi Deposits
+      intro: Deposit Litoshi from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
     ripple:
       key: Block Chain
       title: Ripple Deposits
-      intro: Deposit ripple from your own wallet address to Peatio account
+      intro: Deposit Ripple from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+    duff:
+      key: Block Chain
+      title: Dash Deposits
+      intro: Deposit Dash from your own wallet address to Peatio account
+      latency: 1 confirmation
+      transfer: Manual
+      go: Deposit
+    ethereum:
+      key: Block Chain
+      title: Ethereum Deposits
+      intro: Deposit Ethereum from your own wallet address to Peatio account
       latency: 1 confirmation
       transfer: Manual
       go: Deposit
@@ -457,7 +555,19 @@ en:
       satoshis:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
+      bitcoin_cash:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      litoshis:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
       ripples:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      duffs:
+        gen_address:
+          require_transaction: it can't generate new address if it hasn't been used.
+      ethereums:
         gen_address:
           require_transaction: it can't generate new address if it hasn't been used.
       banks:
@@ -574,6 +684,32 @@ en:
         create:
           notice: Withdrawal request successfully submitted. Use the info below to
             complete the bank transfer.
+      bitcoin_cash:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+      litoshis:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to complete the bank transfer.
       ripples:
         destroy:
           notice: Withdraw been canceled, frozen balance has returned to your account
@@ -581,6 +717,34 @@ en:
           notice: Withdraw request is submit successful, we will process it as soon
             as possible
           alert_two_factor: Two-Factor Authentication error
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+      duffs:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
+        new:
+          submit: Submit
+          allin: All-In
+          fund_source_label: Label
+          manage_fund_source: Manage Fund Source
+        create:
+          notice: Withdrawal request successfully submitted. Use the info below to
+            complete the bank transfer.
+      ethereums:
+        destroy:
+          notice: Withdraw been canceled, frozen balance has returned to your account
+        update:
+          notice: Withdraw request is submit successful, we will process it as soon
+            as possible
         new:
           submit: Submit
           allin: All-In
@@ -625,16 +789,13 @@ en:
     assets:
       index:
         liability-proof: Proof of Liabilities
-        btc-assets: BTC Assets
-        xrp-assets: XRP Assets
-        usd-assets: USD Assets
+        coin-assets: '%{currency} Assets'
+        fiat-assets: '%{currency} Assets'
       liability_tabs:
-        verify-btc: Verify My BTC Assets
-        verify-xrp: Verify My XRP Assets
-        verify-usd: Verify My USD Assets
-        btc-assets-total: 'Total BTC assets of exchange: '
-        xrp-assets-total: 'Total XRP assets of exchange: '
-        usd-assets-total: 'Total USD assets of exchange: '
+        verify-coin: 'Verify My %{currency} Assets'
+        verify-fiat: 'Verify My %{currency} Assets'
+        coin-assets-total: 'Total %{currency} assets of exchange: '
+        fiat-assets-total: 'Total %{currency} assets of exchange: '
       liability_proof:
         title: Proof of Liabilities
         intro: As an exchange, our liabilities refer to the sum of money (in both
@@ -649,71 +810,20 @@ en:
         get-partial-tree: Get my partial tree data
         timestamp: The proof data is generated at %{time}.
         go-verify: Verify
-      btc_assets:
-        title: BTC Assets
-        intro: All of exchange's BTC assets are listed here.
-        total: Total BTC Assets
+      coin_assets:
+        title: '%{currency} Assets'
+        intro: "All of exchange's %{currency} assets are listed here."
+        total: 'Total %{currency} Assets'
         address: Address
-      xrp_assets:
-        title: XRP Assets
-        intro: All of exchange's XRP assets are listed here.
-        total: Total XRP Assets
-        address: Address
-      usd_assets:
-        title: USD Assets
-        intro: All of exchange's USD assets are listed here.
-        total: Total USD Assets
+      fiat_assets:
+        title: '%{currency} Assets'
+        intro: "All of exchange's %{currency} assets are listed here."
+        total: 'Total %{currency} Assets'
         description: " <p>For supervision, you can inquiry the balance of our deposit
           account:</p> <p>Bank: %{bank}</p> <p>Account： %{address}</p> <p>Inquiry
           Password： %{password}</p> <p>Inquiry Tel.： %{tel}</p>"
       partial_tree:
         success: 'Success! Verification data generated at: %{timestamp}'
-    funds:
-      show:
-        account_history: Account History
-        usd_format: '0.00'
-        btc_format: '0.00000000'
-        reason:
-          usd:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          btc:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-          xrp:
-            strike_add: Plus
-            strike_sub: Sub
-            deposit: Deposit
-            withdraw: Withdraw
-            fix: Fix
-        ref:
-          system: System
-          default: Default
-    id_documents:
-      edit:
-        state: State
-        state_unverified: UNVERIFIED
-        state_verifying: VERIFYING
-        state_verified: VERIFIED
-        name: Real Name
-        birth_date: Birth Date
-        address: Address
-        city: City
-        country: Country
-        zipcode: Zipcode
-        id_document_type: Document Type
-        id_document_number: Document Number
-        id_document_file: Document Photo
-        id_bill_type: Proof Of Residence
-        id_bill_file: Proof Of Residence Photo
-      update:
-        notice: Your account verification has been submitted.
     markets:
       show:
         error: Failed
@@ -733,9 +843,7 @@ en:
       market_list:
         all: All Markets
         all_html: "<i class='fa fa-check'></i><span>All Markets</span>"
-        usd_html: "<i class='fa fa-check'></i><span>USD Markets</span>"
-        btc_html: "<i class='fa fa-check'></i><span>BTC Markets</span>"
-        xrp_html: "<i class='fa fa-check'></i><span>XRP Markets</span>"
+        ccy_html: "<i class='fa fa-check'></i><span>%{currency} Markets</span>"
         price: Price
         change: "24h %"
       range_switch:
@@ -851,27 +959,11 @@ en:
       failure: Invalid passcode. Please try again.
       index:
         reauthenticate: Authentication
-        auth-verified: Please verify your account first.
-        verification:
-          title: Verify Account
-          description: Help keep the bad guys out of your account by using your
-            password
-          go: Submit
-          verified: Verified
+        auth-verified: Please confirm your identity first.
         api_tokens:
           title: API Tokens
           description: Create and manage your API tokens.
           go: Set
-    shared:
-      balances:
-        locked: Frozen
-        balance: Balance
-        available: Available
-        title: "%{icon} %{c} Account"
-        usd_format: '0.00'
-        btc_format: '0.00000000'
-        xrp_format: '0.000000'
-        total: Total
   guides:
     private:
       settings:
@@ -892,12 +984,6 @@ en:
           title: Edit API Token
         update:
           title: Edit API Token
-      id_documents:
-        panel: Real-name Authentication
-        new:
-          title: Submit real-name authentication information
-          intro: In line with the national laws , identity verification is required.
-            please verify your account to proceed.
     panels:
       balance: Account
     sessions:
@@ -939,8 +1025,6 @@ en:
             match the name with your real name authentication</span>"
           sn: "<span class='text-danger'>Please copy the SN in your bank transfer's
             message, otherwise we can not process your order quickly.</span>"
-      id_document:
-        name: Please fill in the name which is consistent with your Credentials.
       withdraw:
         bank:
           member_name: "<span class='text-danger'>Withdraw bank account name must
@@ -950,7 +1034,13 @@ en:
             service
         satoshi:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
+        bitcoin_cash:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+        litoshi:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
         ripple:
+          sum: "<a target='_balance' href='#'>Fee structure</a>"
+        duff:
           sum: "<a target='_balance' href='#'>Fee structure</a>"
     creating: Creating...
     updating: Updating...
@@ -984,7 +1074,28 @@ en:
           fund_extra: Label
           account_balance: Account Balance
           member_name: Account
+        bitcoin_cash:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
+        litoshi:
+          fee: Fee
+          sum: Amount
+          fund_uid: Litoshi Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
         ripple:
+          fee: Fee
+          sum: Amount
+          fund_uid: Bitcoin Address
+          fund_extra: Label
+          account_balance: Account Balance
+          member_name: Account
+        duff:
           fee: Fee
           sum: Amount
           fund_uid: Bitcoin Address
@@ -1006,13 +1117,7 @@ en:
           confirm: Confirm recharge?
         update:
           blank_txid: TxID can't be blank
-      satoshis:
-        update:
-          notice: The deposit was successful.
-        index:
-          accept: Accept
-          accept_confirm: Confirm deposit?
-      ripples:
+      coins:
         update:
           notice: The deposit was successful.
         index:
@@ -1079,7 +1184,7 @@ en:
           reject_confirm: Confirm Reject?
           withdraw: Withdraw
           empty: No Data
-      satoshis:
+      coins:
         index:
           one: Pending withdrawals
           all: Last 24 hours
@@ -1091,25 +1196,35 @@ en:
           succeed_confirm: Process withdrawal?
           reject_confirm: Reject withdrawal?
           withdraw: Withdrawals
-      ripples:
-        index:
-          one: Pending withdrawals
-          all: Last 24 hours
-          empty: No data
-        show:
-          process: Accepted
-          succeed: Withdraw
-          reject: Reject
-          succeed_confirm: Process withdrawal?
-          reject_confirm: Reject withdrawal?
-          withdraw: Withdrawals
+        update:
+          notice: Succesfully updated.
+        destroy:
+          notice: Succesfully destroyed.
   deposits/satoshi:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
       checked: Checked
       warning: Warning
+  deposits/bitcoin_cash:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+  deposits/litoshi:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
   deposits/ripple:
+    aasm_state:
+      submitted: Submitted
+      accepted: Accepted
+      checked: Checked
+      warning: Warning
+  deposits/duff:
     aasm_state:
       submitted: Submitted
       accepted: Accepted
@@ -1124,7 +1239,31 @@ en:
       member_name: Member
       state_and_actions: State/Actions
       currency_obj_key_text: Currency
+    bitcoin_cash:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      confirmations: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
+    litoshi:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      confirmations: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
     ripple:
+      amount: Amount
+      txid: TxId
+      created_at: Created At
+      confirmations: Confirmations
+      member_name: Member
+      state_and_actions: State/Actions
+      currency_obj_key_text: Currency
+    duff:
       amount: Amount
       txid: TxId
       created_at: Created At
@@ -1161,9 +1300,12 @@ en:
       wait: Wait
       cancel: Cancel
     currency:
-      usd: USD
       btc: BTC
+      bch: BCH
+      ltc: LTC
       xrp: XRP
+      dash: Dash
+      eth: ETH
     order:
       state:
         done: DONE
@@ -1192,14 +1334,6 @@ en:
       category:
         satoshi: Bitcoin
         bank: Bank
-    id_document:
-      id_document_type:
-        id_card: ID Card
-        passport: Passport
-        driver_license: Driver's License
-      id_bill_type:
-        bank_statement: Bank Statement
-        tax_bill: Tax Bill
   views:
     pagination:
       first: "&laquo; First"
@@ -1257,7 +1391,6 @@ en:
   gon:
     ask: Ask
     bid: Bid
-    brand: Peatio Exchange
     notification:
       title: Peatio Exchange
       enabled: Notification enabled.
@@ -1299,7 +1432,6 @@ en:
     deposits: Deposits
     withdraws: Withdraws
     statistics: Data Statistics
-    id_documents: Verify Account
   footer:
     about: About
     privacy: Privacy
@@ -1367,8 +1499,6 @@ en:
         create: Save
       deposit:
         create: Deposit
-      id_document:
-        create: Submit
       withdraw:
         create: Submit
   activations:
@@ -1391,10 +1521,6 @@ en:
             currency: Deposit
     application:
       close: Close
-    meta:
-      page_title: Peatio - The Opensource Cryptocurrency Exchange
-      page_description: Peatio - The Opensource Cryptocurrency Exchange
-      page_keywords: Peatio,Opensource,Exchange,Cryptocurrency
   members:
     edit:
       name: Please fill out the application.
@@ -1451,10 +1577,38 @@ en:
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
+    bitcoin_cash:
+      key: Blockchain
+      title: Bitcoin Cash Blockchain
+      intro: Withdraw Bitcoin Cash to your own Bitcoin Cash wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    litoshi:
+      key: Blockchain
+      title: Litoshi Blockchain
+      intro: Withdraw Litoshi to your own Litoshi wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
     ripple:
       key: Blockchain
       title: Ripple Blockchain
       intro: Withdraw XRP to your own Ripple wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    duff:
+      key: Blockchain
+      title: Dash Blockchain
+      intro: Withdraw Dash to your own Dash wallet
+      latency: 30 minutes
+      transfer: Manual
+      go: Withdraw
+    ethereum:
+      key: Blockchain
+      title: Ethereum Blockchain
+      intro: Withdraw Ethereum to your own Ethereum wallet
       latency: 30 minutes
       transfer: Manual
       go: Withdraw
@@ -1469,7 +1623,6 @@ en:
       suspect: Suspect
       processing: Processing
       done: Done
-      almost_done: Almost Done
       canceled: Canceld
       failed: Failed
   withdraws/satoshi:
@@ -1481,7 +1634,39 @@ en:
       suspect: Suspect
       processing: processing
       done: Done
-      almost_done: Almost Done
+      canceled: Cancelled
+      failed: Failed
+  withdraws/bitcoin_cash:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
+      canceled: Cancelled
+      failed: Failed
+  withdraws/litoshi:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
+      canceled: Cancelled
+      failed: Failed
+  withdraws/duff:
+    aasm_state:
+      submitting: Submitting
+      submitted: Submitted
+      rejected: Rejected
+      accepted: Accepted
+      suspect: Suspect
+      processing: processing
+      done: Done
       canceled: Cancelled
       failed: Failed
   withdraws/ripple:
@@ -1493,6 +1678,5 @@ en:
       suspect: Suspect
       processing: processing
       done: Done
-      almost_done: Almost Done
       canceled: Cancelled
       failed: Failed

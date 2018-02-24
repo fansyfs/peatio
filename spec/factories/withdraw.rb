@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :satoshi_withdraw, class: Withdraws::Satoshi do
     sum { 10.to_d }
     currency :btc
-    member { create :member }
-    fund_source { create(:btc_fund_source) }
+    member { create :member, :verified_identity }
+    fund_source_id { create(:btc_fund_source).id }
     type 'Withdraws::Satoshi'
 
     account do
@@ -27,10 +27,10 @@ FactoryBot.define do
   end
 
   factory :bank_withdraw, class: Withdraws::Bank do
-    member { create :member }
+    member { create :member, :verified_identity }
     currency :usd
     sum { 1000.to_d }
-    fund_source { create(:usd_fund_source) }
+    fund_source_id { create(:usd_fund_source).id }
     type 'Withdraws::Bank'
 
     account do

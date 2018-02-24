@@ -1,7 +1,7 @@
 class Withdraw < ActiveRecord::Base
   STATES = [:submitting, :submitted, :rejected, :accepted, :suspect, :processing,
-            :done, :canceled, :almost_done, :failed]
-  COMPLETED_STATES = [:done, :rejected, :canceled, :almost_done, :failed]
+            :done, :canceled, :failed]
+  COMPLETED_STATES = [:done, :rejected, :canceled, :failed]
 
   extend Enumerize
 
@@ -71,31 +71,30 @@ class Withdraw < ActiveRecord::Base
 
   aasm :whiny_transitions => false do
     state :submitting,  initial: true
-    state :submitted,   after_commit: :send_email
-    state :canceled,    after_commit: [:send_email]
+    state :submitted
+    state :canceled
     state :accepted
-    state :suspect,     after_commit: :send_email
-    state :rejected,    after_commit: :send_email
-    state :processing,  after_commit: [:send_coins!, :send_email]
-    state :almost_done
-    state :done,        after_commit: [:send_email]
-    state :failed,      after_commit: :send_email
+    state :suspect
+    state :rejected
+    state :processing
+    state :done
+    state :failed
 
-    event :submit do
+    event :submit, after_commit: :send_email do
       transitions from: :submitting, to: :submitted
       after do
         lock_funds
       end
     end
 
-    event :cancel do
+    event :cancel, after_commit: :send_email do
       transitions from: [:submitting, :submitted, :accepted], to: :canceled
       after do
         after_cancel
       end
     end
 
-    event :mark_suspect do
+    event :mark_suspect, after_commit: :send_email do
       transitions from: :submitted, to: :suspect
     end
 
@@ -103,27 +102,24 @@ class Withdraw < ActiveRecord::Base
       transitions from: :submitted, to: :accepted
     end
 
-    event :reject do
+    event :reject, after_commit: :send_email do
       transitions from: [:submitted, :accepted, :processing], to: :rejected
       after :unlock_funds
     end
 
-    event :process do
+    event :process, after_commit: %i[ send_coins! send_email ] do
       transitions from: :accepted, to: :processing
     end
 
-    event :call_rpc do
-      transitions from: :processing, to: :almost_done
-    end
-
-    event :succeed do
-      transitions from: [:processing, :almost_done], to: :done
+    event :succeed, after_commit: :send_email do
+      transitions from: :processing, to: :done
 
       before [:set_txid, :unlock_and_sub_funds]
     end
 
-    event :fail do
+    event :fail, after_commit: :send_email do
       transitions from: :processing, to: :failed
+      after :unlock_funds
     end
   end
 
@@ -212,12 +208,9 @@ class Withdraw < ActiveRecord::Base
   end
 
   def calc_fee
-    if respond_to?(:set_fee)
-      set_fee
-    end
-
     self.sum ||= 0.0
-    self.fee ||= 0.0
+    # You can set fee for each currency in withdraw_channels.yml.
+    self.fee ||= WithdrawChannel.find_by_currency(currency).fee
     self.amount = sum - fee
   end
 
@@ -243,3 +236,26 @@ class Withdraw < ActiveRecord::Base
 
 
 end
+
+# == Schema Information
+# Schema version: 20180215144645
+#
+# Table name: withdraws
+#
+#  id         :integer          not null, primary key
+#  sn         :string(255)
+#  account_id :integer
+#  member_id  :integer
+#  currency   :integer
+#  amount     :decimal(32, 16)
+#  fee        :decimal(32, 16)
+#  fund_uid   :string(255)
+#  fund_extra :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  done_at    :datetime
+#  txid       :string(255)
+#  aasm_state :string
+#  sum        :decimal(32, 16)  default(0.0), not null
+#  type       :string(255)
+#
